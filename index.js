@@ -41,6 +41,19 @@ async function run() {
 
     const coffeesCollection  = client.db('coffeeDB').collection('coffess')
 
+    // data server e anbho data base theke 
+    app.get('/coffees',async(req,res) => {
+      // const cursor = coffeesCollection.find();
+      // const result = await cursor.toArray();
+
+      const result = await coffeesCollection.find().toArray()
+      res.send(result)
+
+      // data showing on client server 
+    })
+
+
+
     // posting coffes data in server 
     app.post('/coffees',async(req,res) => {
       const newCoffee = req.body;
@@ -48,6 +61,8 @@ async function run() {
       // ekhon data base add korte jacci 
       const result =await coffeesCollection.insertOne(newCoffee)
       res.send(result)
+
+      // data ekhono website dhekhabhe na  data just mongo ar nodemon e dhekhabhe 
 
     })
 
