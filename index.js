@@ -61,9 +61,6 @@ async function run() {
 
       // server id diye check korbo 
     })
-
-
-
     // posting coffes data in server 
     app.post('/coffees',async(req,res) => {
       const newCoffee = req.body;
@@ -71,10 +68,38 @@ async function run() {
       // ekhon data base add korte jacci 
       const result =await coffeesCollection.insertOne(newCoffee)
       res.send(result)
-
       // data ekhono website dhekhabhe na  data just mongo ar nodemon e dhekhabhe 
-
     })
+
+    // update process 
+    // 8 number videor 8 minit theke suru 
+    app.put('/coffees/:id',async(req,res) => {
+      const id = req.params.id;
+      const filter = {_id:new ObjectId (id)}
+      const options = {upsert : true};
+      const updatedCoffee = req.body;
+      const updateDoc = {
+        $set : updatedCoffee
+      }
+     
+
+      // manual system 
+       
+      // const updateDoc = {
+      //   $set:{
+      //     name:updatedCoffee.name,
+      //     supllier : updatedCoffee.supllier
+      //   }
+      // }
+
+
+       const result = await coffeesCollection.updateOne(filter,updateDoc,options)
+       
+       res.send(result);
+    })
+
+
+
 
     // dete process 
     app.delete('/coffees/:id',async(req,res) =>{
@@ -86,8 +111,6 @@ async function run() {
       const query = {_id :new ObjectId(id)};
       const result= await coffeesCollection.deleteOne(query);
       res.send(result)
-
-
     })
 
 
