@@ -6,7 +6,7 @@ const app = express();
 // eita dot env website sobar laste bosacci 
 require('dotenv').config()
 const port = process.env.PORT || 3000;
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 // middleware 
 app.use(cors());
@@ -63,6 +63,20 @@ async function run() {
       res.send(result)
 
       // data ekhono website dhekhabhe na  data just mongo ar nodemon e dhekhabhe 
+
+    })
+
+    // dete process 
+    app.delete('/coffees/:id',async(req,res) =>{
+      // id jeta asche ota params hisebe asche 
+      const id = req.params.id;
+      // id ke gapla korte hobe karon mongo nijei gapla kore id rakhe 
+
+      // object ta k import korte hoi naile data kaj kore na 
+      const query = {_id :new ObjectId(id)};
+      const result= await coffeesCollection.deleteOne(query);
+      res.send(result)
+
 
     })
 
