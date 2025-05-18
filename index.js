@@ -52,6 +52,16 @@ async function run() {
       // data showing on client server 
     })
 
+    // just get1 i item 
+    app.get('/coffees/:id',async(req,res) => {
+      const id = req.params.id;
+      const query = {_id:new ObjectId(id)}
+      const result = await coffeesCollection.findOne(query);
+      res.send(result)
+
+      // server id diye check korbo 
+    })
+
 
 
     // posting coffes data in server 
