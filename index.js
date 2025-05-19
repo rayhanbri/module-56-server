@@ -39,7 +39,10 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const coffeesCollection  = client.db('coffeeDB').collection('coffess')
+    const coffeesCollection  = client.db('coffeeDB').collection('coffes');
+
+    // for new data neednew collection 
+    const userCollection = client.db('coffeeDB').collection('users');
 
     // data server e anbho data base theke 
     app.get('/coffees',async(req,res) => {
@@ -110,6 +113,15 @@ async function run() {
       // object ta k import korte hoi naile data kaj kore na 
       const query = {_id :new ObjectId(id)};
       const result= await coffeesCollection.deleteOne(query);
+      res.send(result)
+    })
+
+    // api data post pore users 
+
+    app.post('/users',async (req,res) => {
+      const userProfile = req.body;
+      console.log(userProfile);
+      const result = await userCollection.insertOne(userProfile);
       res.send(result)
     })
 
