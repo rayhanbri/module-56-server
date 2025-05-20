@@ -120,7 +120,7 @@ async function run() {
 
     app.post('/users',async (req,res) => {
       const userProfile = req.body;
-      console.log(userProfile);
+      // console.log(userProfile);
       const result = await userCollection.insertOne(userProfile);
       res.send(result)
     })
@@ -133,12 +133,29 @@ async function run() {
       res.send(result)
     })
 
+    // user data patch 
+    app.patch('/users',async(req,res) => {
+      // console.log(req.body);
+      const {email,lastSignInTime} = req.body;
+      const filter = {email:email};
+      const updateDoc = {
+        $set:{
+          lastSignInTime:lastSignInTime
+        }
+      }
+      // upsert hoi sudo put er modde patch e na 
+      const result = await userCollection.updateOne(filter,updateDoc);
+      res.send(result)
+
+    })
+
 
     // user data delete 
     app.delete('/users/:id',async(req,res) => {
       const id = req.params.id;
+      console.log(id)
       const query = {_id:new ObjectId(id)};
-      const result = await userCollection.deleteOne(query)
+      const result = await userCollection.deleteOne(query);
       res.send(result)
     })
 
